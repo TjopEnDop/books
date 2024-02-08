@@ -6,7 +6,8 @@
 
 <div class="box">
   <% book.forEach(function(i) { %>
-    <h3><%= i.title %> - by <%= i.author %></h3>
+    <h3><%= i.title %> - by <%= i.author %> | ISBN: <%= i.isbn %></h3>
+    <img src="<%= i.cover %>" />
     <p>Date read: <%= i.date %> | My Rating: <%= i.rating %>/10</p>
     <p><%= i.description %></p>
     
@@ -21,31 +22,24 @@
 </h2>
 <div class="box">
   <form class="" action="/add" method="post">
-    <p class="form-label">Book Title</p>
-    <input type="text" name="title" placeholder="<%= locals.error ? error :  'eg. The Hunger Games'%>" autocomplete="off" autofocus="true" />
     
     <p class="form-label">ISBN</p>
-    <input type="text" name="isbn" placeholder="<%= locals.error ? error :  'eg. 9781926801131'%>" autocomplete="off"/>
-
-    <p class="form-label">Author</p>
-    <input type="text" name="author" placeholder="<%= locals.error ? error :  'eg. JK Rowling'%>" autocomplete="off"/>
+    <input type="text" name="isbn" placeholder="<%= locals.error ? error :  'eg. 9781926801131'%>"/>
 
     <p class="form-label">Rating (Out of 10)</p>
-    <input type="text" name="rating" placeholder="<%= locals.error ? error :  'eg. 7'%>" autocomplete="off"/>
+    <input type="text" name="rating" placeholder="<%= locals.error ? error :  'eg. 7'%>"/>
 
     <p class="form-label">Date Read</p>
-    <input type="date" name="date" placeholder="<%= locals.error ? error :  'eg. 15-02-2009'%>" autocomplete="off"/> 
+    <input type="date" name="date" placeholder="<%= locals.error ? error :  'eg. 15-02-2009'%>"/> 
 
     <p class="form-label">Short Description</p>
-    <textarea name="description" placeholder="<%= locals.error ? error :  'About 250 characters about your thoughts on the book'%>" autocomplete="off" rows="7" cols="80" maxlength="250"></textarea>
+    <textarea name="description" placeholder="<%= locals.error ? error :  'About 250 characters about your thoughts on the book'%>" rows="7" cols="80" maxlength="250"></textarea>
 
     <p class="form-label">Notes</p>
-    <textarea name="notes" placeholder="<%= locals.error ? error :  'Full notes (Type as much as you want about the book)'%>" autocomplete="off" rows="14" cols="80"></textarea>
+    <textarea name="notes" placeholder="<%= locals.error ? error :  'Full notes (Type as much as you want about the book)'%>" rows="14" cols="80"></textarea>
     <br>
     <button type="submit">Save</button>
   </form>
 </div>
-
-
   
 <%- include('partials/footer.ejs'); -%>
