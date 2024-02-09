@@ -30,22 +30,22 @@ async function getBooks(){
   return data;
 }
 
-async function getAuthor(req, resultISBN){
-  if (resultISBN.authors[0].key) {
-    console.log(`Author data (Pt 1): ${resultISBN.authors[0].key}`);
-    console.log(`ISBN length: ${inputISBN.length}`);
-    const searchAuthor = resultISBN.authors[0].key;
-    const authorResponse =  await axios.get(apiURL + searchAuthor + ".json");
-    const resultAuthor = authorResponse.data;
-    return resultAuthor.name;
-  }  
-  if (resultISBN.contributors[2].name) {
-    console.log(`Author data (Pt 1): ${resultISBN.contributors[2].name}`);
-    console.log(`ISBN length: ${inputISBN.length}`);
-    const searchAuthor = resultISBN.contributors[2].name;
-    return searchAuthor;
-  }
-}
+// async function getAuthor(req, resultISBN){
+//   if (resultISBN.authors[0].key) {
+//     console.log(`Author data (Pt 1): ${resultISBN.authors[0].key}`);
+//     console.log(`ISBN length: ${inputISBN.length}`);
+//     const searchAuthor = resultISBN.authors[0].key;
+//     const authorResponse =  await axios.get(apiURL + searchAuthor + ".json");
+//     const resultAuthor = authorResponse.data;
+//     return resultAuthor.name;
+//   }  
+//   if (resultISBN.contributors[2].name) {
+//     console.log(`Author data (Pt 1): ${resultISBN.contributors[2].name}`);
+//     console.log(`ISBN length: ${inputISBN.length}`);
+//     const searchAuthor = resultISBN.contributors[2].name;
+//     return searchAuthor;
+//   }
+// }
 
 app.get("/", async (req, res) => {
   const books = await getBooks();
@@ -62,8 +62,8 @@ app.post("/add", async (req, res) => {
     const response = await axios.get(apiURL + "/isbn/" + inputISBN + ".json");
     const resultISBN = response.data;
     const inputTitle = resultISBN.title;  
-
-    const inputCover = coverApiURL + inputISBN + "-M.jpg";
+    const inputAuthor = req.body.author;
+    const inputCover = coverApiURL + inputISBN + "-L.jpg";
     const inputRating = req.body.rating;
     const inputDate = req.body.date;
     const inputDesc = req.body.description;
@@ -76,10 +76,7 @@ app.post("/add", async (req, res) => {
       });
     } else {
       try {
-        inputAuthor = await getAuthor(req, resultISBN);
         console.log(`Author: ${inputAuthor}`);
-            
-        console.log(`Text between statements`);
         try{
           await db.query(
         "INSERT INTO collection (title, isbn, author, rating, date, description, notes, cover) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
@@ -143,12 +140,13 @@ app.post("/update", async (req, res) => {
   const result = await db.query("SELECT * FROM collection WHERE id = $1", [bookID]);
   const data = result.rows[0];
 
+  const inputAuthor = req.body.author;
   const inputRating = req.body.rating;
   const inputDate = req.body.date;
   const inputDesc = req.body.description;
   const inputNotes = req.body.notes;
 
-  if(inputRating === "" || inputDate === "" || inputDesc === "" || inputNotes === ""){
+  if(inputAuthor === "" || inputRating === "" || inputDate === "" || inputDesc === "" || inputNotes === ""){
     genError = "Can't insert empty value";
     res.render("update.ejs", {
       update: data,
@@ -156,7 +154,7 @@ app.post("/update", async (req, res) => {
     });
   } else{
     try {
-      await db.query("UPDATE collection SET rating = $1, date = $2, description = $3, notes = $4 WHERE id = $5", [inputRating, inputDate, inputDesc, inputNotes, bookID]);
+      await db.query("UPDATE collection SET author = $1, rating = $2, date = $3, description = $4, notes = $5 WHERE id = $6", [inputAuthor, inputRating, inputDate, inputDesc, inputNotes, bookID]);
       res.redirect("/");
     } catch (error) {
       console.error("Failed to make changes:", error);

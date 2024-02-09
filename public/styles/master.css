@@ -1,0 +1,264 @@
+.form-label::after {
+  content: " *";
+}
+
+body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;  
+}
+
+.container{
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+  max-width: 1440px;
+  padding: 25px;
+  column-gap: 10px;
+  row-gap: 25px;
+  border-radius: 8px;
+}
+.container-form{
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  /* width: 100%;
+  max-width: 1080px; */
+  padding: 40px;
+  gap: 25px;
+  border-radius: 8px;
+}
+.container h3{
+  margin-top: 0;
+}
+.box-item{  
+  padding: 25px;
+}
+.box-item:nth-child(3n-1){
+  border-left: solid 1px;
+  border-right: solid 1px;
+}
+.title{
+  width: 100%;
+  text-align: center;
+}
+.button{
+  margin: 50px 0 25px;
+  text-align: center;
+}
+.desc-box{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+  row-gap: 25px;
+  margin-bottom: 25px;
+}
+.desc-img{
+  /* max-width: 100%;
+  float: left; */
+  height: 200px;
+  margin-right: 25px;
+}
+.desc{
+  margin: 0;
+  text-align: left;
+}
+.feature-box{
+  width: 100%;
+  display: table;
+  /* height: 225px; */
+  margin-bottom: 25px;
+}
+.feature-box img, .feature-box p{
+  display: table-cell;
+  vertical-align: top;
+}
+.view-btn{
+  display: block;
+}
+.container-form form{
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 25px;
+  row-gap: 5px;
+  width: 100%;
+  justify-items: center;
+}
+.field-small{
+  width: 100%;
+}
+.container-form form button{
+  grid-column: span 2;
+}
+.form-update{
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-update button, .form-home button{
+  justify-self: center;
+  max-width: 250px;
+}
+
+.form-home{
+  grid-column: span 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+textarea{
+  width: 100%;
+  border-radius: 5px;
+  padding: 8px 5px;
+}
+input{
+  width: 100%;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+  padding: 8px 5px;
+}
+.form-label{
+  width: 100%;
+}
+.container form button{
+  grid-column: span 2;
+}
+.field-full{
+  grid-column: span 2;
+}
+
+button{
+  border: solid 1px;
+  border-radius: 50px;
+  padding: 8px 15px;
+  min-width: 120px;
+}
+button:hover{
+  cursor: pointer;
+}
+
+/* font styling start */
+body, textarea, input{
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-wrap: wrap;
+}
+h1, h2, h3, h4, h5, h6{
+  font-weight: 600;
+}
+h1{
+  font-size: 48px;
+}
+h2{
+  font-size: 36px;
+}
+h3{
+  font-size: 24px;
+}
+/* font styling end */
+
+/* colour styling start */
+.form-label::after {
+  color: #e32;
+}
+
+body{
+  background-color: #efefef;
+}
+h1, h2, h3, h4, h5, h6, b{
+  color: #3e4659;
+}
+a{
+  color: #a46464;
+}
+button{
+  background-color: #a46464;
+  border-color: #a46464;
+  color: #ffffff;
+}
+button:hover{
+  background-color: rgba(0,0,0,0);
+  color: #a46464;
+}
+input, textarea{
+  /* border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133)); */
+  border-color: #939898;
+}
+.container, .container-form{
+  background-color: white;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+.box-item:nth-child(3n-1){
+  border-color: #939898;
+}
+/* colour styling end */
+
+/* footer styling start */
+footer{
+  margin: 25px 0 ;
+  font-size: 11px;
+}
+/* footer styling end */
+
+/* breakpoint styling start */
+@media all and (max-width: 960px){
+  h1{
+    font-size: 36px;
+  }
+  h2{
+    font-size: 24px;
+  }
+  h3{
+    font-size: 16px;
+  }
+  .container{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-items: center;
+  }
+  .form-update{
+    grid-column: span 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .container img, .container-form img{
+    width: fit-content;
+    height: 300px;
+  }
+  .desc-box{
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    justify-items: center;
+  }
+  .field-small{
+    grid-column: span 2;
+  }
+  .feature-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
+  .box-item:nth-child(3n-1){
+    border-left: none;
+    border-right: none;
+  }
+  .box-item{
+    padding: 0;
+    text-align: center;
+  }
+  .desc-img{
+    margin: 0 0 25px 0;
+  }
+}
+/* breakpoint styling end */

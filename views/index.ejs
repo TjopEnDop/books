@@ -1,23 +1,31 @@
 <%- include('partials/header.ejs'); -%>
 
-<h2>
-  Books in collection
-</h2>
-
-<div class="box">
+<div class="title">
+  <h1>
+  Books in the Collection
+</h1>
+</div>
+<div class="container">
   <% book.forEach(function(i) { %>
-    <h3><%= i.title %> - by <%= i.author %> | ISBN: <%= i.isbn %></h3>
-    <img src="<%= i.cover %>" />
-    <p>Date read: <%= i.date %> | My Rating: <%= i.rating %>/10</p>
-    <p><%= i.description %></p>
-    
-    <form class="" action="/book" method="post">
-      <button type="submit" name="view" value="<%= i.id %>">Read my notes</button> or go to the <a href="https://www.amazon.com/s?k=<%= i.isbn %>" target="_blank">Amazon page</a> for more details and reviews.
-    </form>
+    <div class="box-item">
+      <h3><%= i.title %><br></h3>
+      <p>by <%= i.author %> | ISBN: <b><%= i.isbn %></b><br>
+        Date read: <%= i.date %> | My Rating: <b><%= i.rating %>/10</b></p>
+      <div class="feature-box">
+        <img class="desc-img" src="<%= i.cover %>" />
+        <p class="desc"> <%= i.description %></p><br>
+      </div>
+      <div>
+        <form class="view-btn" action="/book" method="post">
+          <button type="submit" name="view" value="<%= i.id %>">Read my notes</button><br><br> or go to the <a href="https://www.amazon.com/s?k=<%= i.isbn %>" target="_blank">Amazon page</a> for more details and reviews.
+        </form>
+      </div>   
+      
+  </div>
   <% }); %>
 </div>
 
-<div class="box">
+<div class="button">
   <form class="" action="/new" method="post">
     <button type="submit">Add new title</button>
   </form>

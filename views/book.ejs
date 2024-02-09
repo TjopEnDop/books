@@ -1,12 +1,16 @@
 <%- include('partials/header.ejs'); -%>
 
-<div class="box">
-    <h2><%= book.title %> - by <%= book.author %></h2>
-    <img src="<%= book.cover %>" />
+<div class="title">
+  <h2><%= book.title %> - by <%= book.author %></h2>
+</div>
+<div class="container">  
+    <img src="<%= book.cover %>" style="margin-bottom: 20px;"/>
+  <div>
+    <h3>Book details</h3>
     <p>ISBN: <%= book.isbn %></p>
     <p>Date read: <%= book.date %> | My Rating: <%= book.rating %>/10</p>
     <p><%= book.description %></p>
-    <p><%= book.notes %></p>
+    
     <form class="" action="/change" method="post">
       <input type="hidden" name="id" value="<%= book.id %>">
       <input type="hidden" name="isbn" value="<%= book.isbn %>">
@@ -17,10 +21,15 @@
       <input type="hidden" name="date" value="<%= book.date %>">
       <input type="hidden" name="description" value="<%= book.description %>">
       <input type="hidden" name="notes" value="<%= book.notes %>">
-      <button type="submit" name="change" value="edit">Edit this entry</button>
-      <button type="submit" name="change" value="delete">Delete this entry</button>
-      <button type="submit" name="change" value="return">Return to home page</button>
+      <button style="margin-bottom: 15px;" type="submit" name="change" value="edit">Edit this entry</button><br>
+      <button style="margin-bottom: 15px;" type="submit" name="change" value="delete">Delete this entry</button><br>
+      <button style="margin-bottom: 15px;" type="submit" name="change" value="return">Return to home page</button>
     </form>
+  </div> 
+  <div>
+    <h3>Notes on this book</h3>
+    <p><%= book.notes %></p>
+  </div>    
 </div>
 
 <%- include('partials/footer.ejs'); -%>

@@ -1,25 +1,35 @@
 <%- include('partials/header.ejs'); -%>
 
-<h2>Edit: <%= update.title %></h2>
-<div class="box">
+<div class="title">
+  <h2>Edit entry: <%= update.title %></h2>
+</div>
+<div class="container">
   <img src="<%= update.cover %>" />
-  <form class="" action="/update" method="post">
+  <form class="form-update" action="/update" method="post">
     <input type="hidden" name="id" value="<%= update.id %>">
     <input type="hidden" name="isbn" value="<%= update.isbn %>">
 
+    <p class="form-label">Author</p>
+    <input type="text" name="author" value="<%= locals.error ? error : update.author %>" required/>
+
     <p class="form-label">Rating (Out of 10)</p>
-    <input type="text" name="rating" placeholder="<%= locals.error ? error : update.rating %>" required/>
+    <input type="text" name="rating" value="<%= locals.error ? error : update.rating %>" required/>
 
     <p class="form-label">Date Read</p>
-    <input type="date" name="date" placeholder="<%= locals.error ? error : update.date %>" required/> 
+    <input type="date" name="date" value="<%= locals.error ? error : update.date %>" required/> 
 
     <p class="form-label">Short Description</p>
-    <textarea name="description" placeholder="<%= locals.error ? error : update.description %>" rows="7" cols="80" maxlength="250" required></textarea>
+    <textarea name="description" placeholder="" rows="7" cols="80" maxlength="250" required><%= locals.error ? error : update.description %></textarea>
 
     <p class="form-label">Notes</p>
-    <textarea name="notes" placeholder="<%= locals.error ? error : update.notes %>" rows="14" cols="80" required></textarea>
+    <textarea name="notes" placeholder="" rows="14" cols="80" required><%= locals.error ? error : update.notes %></textarea>
     <br>
-    <button type="submit">Save</button>
+    <button style="margin-top: 15px;" type="submit">Save</button>
+  </form>
+  <br>
+  <form class="form-home" action="/change" method="post">
+    <button type="submit" name="change" value="return">Return to home page</button>
+    <br>
   </form>
 </div>
   
