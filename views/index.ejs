@@ -17,28 +17,9 @@
   <% }); %>
 </div>
 
-<h2>
-  New Book
-</h2>
 <div class="box">
-  <form class="" action="/add" method="post">
-    
-    <p class="form-label">ISBN</p>
-    <input type="text" name="isbn" placeholder="<%= locals.error ? error :  'eg. 9781926801131'%>"/>
-
-    <p class="form-label">Rating (Out of 10)</p>
-    <input type="text" name="rating" placeholder="<%= locals.error ? error :  'eg. 7'%>"/>
-
-    <p class="form-label">Date Read</p>
-    <input type="date" name="date" placeholder="<%= locals.error ? error :  'eg. 15-02-2009'%>"/> 
-
-    <p class="form-label">Short Description</p>
-    <textarea name="description" placeholder="<%= locals.error ? error :  'About 250 characters about your thoughts on the book'%>" rows="7" cols="80" maxlength="250"></textarea>
-
-    <p class="form-label">Notes</p>
-    <textarea name="notes" placeholder="<%= locals.error ? error :  'Full notes (Type as much as you want about the book)'%>" rows="14" cols="80"></textarea>
-    <br>
-    <button type="submit">Save</button>
+  <form class="" action="/new" method="post">
+    <button type="submit">Add new title</button>
   </form>
 </div>
   

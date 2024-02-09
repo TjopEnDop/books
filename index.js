@@ -55,56 +55,53 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.post("/", async (req, res) => {
-  const books = await getBooks();
-  res.render("index.ejs", {
-    book: books,
-    error: genError
-  });
-});
-
 app.post("/add", async (req, res) => {
   // var split = i.isbn.replace(/-/g, '');
-  inputISBN = req.body.isbn.replace(/-/g, '');
-  console.log(`ISBN: ${inputISBN}`);
+  if (req.body.isbn != ""){
+    inputISBN = req.body.isbn.replace(/-/g, '');
+    const response = await axios.get(apiURL + "/isbn/" + inputISBN + ".json");
+    const resultISBN = response.data;
+    const inputTitle = resultISBN.title;  
 
-  const response = await axios.get(apiURL + "/isbn/" + inputISBN + ".json");
-  const resultISBN = response.data;
-  console.log(`ISBN data: ${resultISBN}`);
-  const inputTitle = resultISBN.title;  
-  console.log(`Title: ${inputTitle}`);
-
-  const inputCover = coverApiURL + inputISBN + "-M.jpg";
-  console.log(`Cover URL: ${inputCover}`);
-  const inputRating = req.body.rating;
-  console.log(`Rating: ${inputRating}`);
-  const inputDate = req.body.date;
-  console.log(`Date read: ${inputDate}`);
-  const inputDesc = req.body.description;
-  console.log(`Description: ${inputDesc}`);
-  const inputNotes = req.body.notes;
-  console.log(`Notes: ${inputNotes}`);
-  try {
-    inputAuthor = await getAuthor(req, resultISBN);
-    console.log(`Author: ${inputAuthor}`);
+    const inputCover = coverApiURL + inputISBN + "-M.jpg";
+    const inputRating = req.body.rating;
+    const inputDate = req.body.date;
+    const inputDesc = req.body.description;
+    const inputNotes = req.body.notes;
+  
+    if(inputRating === "" || inputDate === "" || inputDesc === "" || inputNotes === ""){
+      genError = "Can't insert empty value";
+      res.render("new.ejs", {
+        error: genError
+      });
+    } else {
+      try {
+        inputAuthor = await getAuthor(req, resultISBN);
+        console.log(`Author: ${inputAuthor}`);
             
-    console.log(`Text between statements`);
-    try{
-      await db.query(
+        console.log(`Text between statements`);
+        try{
+          await db.query(
         "INSERT INTO collection (title, isbn, author, rating, date, description, notes, cover) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
         [inputTitle, inputISBN, inputAuthor, inputRating, inputDate, inputDesc, inputNotes, inputCover]
-      );
-      res.redirect("/");
-    } catch(err){
-      genError = err;
-      res.redirect("/");
+          );
+          res.redirect("/");
+        } catch(err){
+          genError = err;
+          res.redirect("/");
+        }    
+      } catch (error) {
+        console.error("Failed to make request:", error);
+        genError = error;
+        res.redirect("/");
+      }
     }
-    
-  } catch (error) {
-    console.error("Failed to make request:", error);
-    genError = error;
-    res.redirect("/");
-  }  
+  } else {
+    genError = "Can't insert empty value";
+    res.render("new.ejs", {
+      error: genError
+    });
+  }    
 });
 
 app.post("/book", async (req, res) => {
@@ -116,6 +113,57 @@ app.post("/book", async (req, res) => {
     book: data,
     error: genError
   });
+});
+
+app.post("/new", async (req, res) => {
+  res.render("new.ejs");
+});
+
+app.post("/change", async (req, res) => {
+  const action = req.body.change;
+  if(action === "edit"){
+    const bookID = req.body.id;
+    const result = await db.query("SELECT * FROM collection WHERE id = $1", [bookID]);
+    const data = result.rows[0];
+    res.render("update.ejs", {
+      update: data,
+      error: genError
+    });
+  }
+  if(action === "delete"){
+    await db.query("DELETE FROM collection WHERE isbn = $1", [req.body.isbn]);
+  }
+  if(action === "return"){
+    res.redirect("/");
+  }  
+});
+
+app.post("/update", async (req, res) => {
+  const bookID = req.body.id;
+  const result = await db.query("SELECT * FROM collection WHERE id = $1", [bookID]);
+  const data = result.rows[0];
+
+  const inputRating = req.body.rating;
+  const inputDate = req.body.date;
+  const inputDesc = req.body.description;
+  const inputNotes = req.body.notes;
+
+  if(inputRating === "" || inputDate === "" || inputDesc === "" || inputNotes === ""){
+    genError = "Can't insert empty value";
+    res.render("update.ejs", {
+      update: data,
+      error: genError
+    });
+  } else{
+    try {
+      await db.query("UPDATE collection SET rating = $1, date = $2, description = $3, notes = $4 WHERE id = $5", [inputRating, inputDate, inputDesc, inputNotes, bookID]);
+      res.redirect("/");
+    } catch (error) {
+      console.error("Failed to make changes:", error);
+      genError = error;
+      res.redirect("/");
+    }
+  }  
 });
 
 app.listen(port, () => {

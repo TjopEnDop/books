@@ -1,0 +1,26 @@
+<%- include('partials/header.ejs'); -%>
+
+<h2>Edit: <%= update.title %></h2>
+<div class="box">
+  <img src="<%= update.cover %>" />
+  <form class="" action="/update" method="post">
+    <input type="hidden" name="id" value="<%= update.id %>">
+    <input type="hidden" name="isbn" value="<%= update.isbn %>">
+
+    <p class="form-label">Rating (Out of 10)</p>
+    <input type="text" name="rating" placeholder="<%= locals.error ? error : update.rating %>" required/>
+
+    <p class="form-label">Date Read</p>
+    <input type="date" name="date" placeholder="<%= locals.error ? error : update.date %>" required/> 
+
+    <p class="form-label">Short Description</p>
+    <textarea name="description" placeholder="<%= locals.error ? error : update.description %>" rows="7" cols="80" maxlength="250" required></textarea>
+
+    <p class="form-label">Notes</p>
+    <textarea name="notes" placeholder="<%= locals.error ? error : update.notes %>" rows="14" cols="80" required></textarea>
+    <br>
+    <button type="submit">Save</button>
+  </form>
+</div>
+  
+<%- include('partials/footer.ejs'); -%>
